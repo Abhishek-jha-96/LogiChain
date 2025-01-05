@@ -13,12 +13,11 @@ export class RetailerOrderByWithRelationInputStrict
     >
 {
   @Field(() => Prisma.SortOrder)
+  updatedAt: Prisma.SortOrder
+  @Field(() => Prisma.SortOrder)
   uid: Prisma.SortOrder
   @Field(() => Prisma.SortOrder)
   createdAt: Prisma.SortOrder
-  @Field(() => Prisma.SortOrder)
-  updatedAt: Prisma.SortOrder
-  @Field(() => Prisma.SortOrder)
   user: UserOrderByWithRelationInput
   Warehouse: WarehouseOrderByRelationAggregateInput
 }

@@ -14,7 +14,7 @@ import {
   RegisterWithCredentialsInput,
 } from './dtos/create-user.input'
 import { UpdateUserInput } from './dtos/update-user.input'
-import { GetUser } from 'src/common/auth/auth.decorator'
+import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
 import { GetUserType } from '@foundation/util/types'
 import { PrismaService } from 'src/common/prisma/prisma.service'
 

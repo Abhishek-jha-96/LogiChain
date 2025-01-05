@@ -2,7 +2,7 @@ import { Field, InputType, PartialType } from '@nestjs/graphql'
 import { Prisma } from '@prisma/client'
 import { RestrictProperties } from 'src/common/dtos/common.input'
 import { DistributorOrderByWithRelationInput } from 'src/models/distributors/graphql/dtos/order-by.args'
-import { ManufacturersOrderByWithRelationInput } from 'src/models/manufacturers/graphql/dtos/order-by.args'
+import { ManufacturerOrderByWithRelationInput } from 'src/models/manufacturers/graphql/dtos/order-by.args'
 import { RetailerOrderByWithRelationInput } from 'src/models/retailers/graphql/dtos/order-by.args'
 
 @InputType()
@@ -16,7 +16,7 @@ export class UserOrderByWithRelationInputStrict
       >
     >
 {
-  Manufacturer: ManufacturersOrderByWithRelationInput
+  Manufacturer: ManufacturerOrderByWithRelationInput
   Distributor: DistributorOrderByWithRelationInput
   Retailer: RetailerOrderByWithRelationInput
 

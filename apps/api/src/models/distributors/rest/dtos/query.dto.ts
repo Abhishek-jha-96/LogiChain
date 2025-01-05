@@ -6,8 +6,4 @@ export class DistributorQueryDto extends BaseQueryDto {
   @IsOptional()
   @IsIn(Object.values(Prisma.DistributorScalarFieldEnum))
   sortBy?: string
-
-  @IsOptional()
-  @IsIn(Object.values(Prisma.DistributorScalarFieldEnum))
-  searchBy?: string
 }

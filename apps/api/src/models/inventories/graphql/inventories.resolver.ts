@@ -1,4 +1,11 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql'
 import { InventoriesService } from './inventories.service'
 import { Inventory } from './entity/inventory.entity'
 import {
@@ -7,8 +14,12 @@ import {
 } from './dtos/find.args'
 import { CreateInventoryInput } from './dtos/create-inventory.input'
 import { UpdateInventoryInput } from './dtos/update-inventory.input'
-import { AllowAuthenticated } from 'src/common/auth/auth.decorator'
 import { PrismaService } from 'src/common/prisma/prisma.service'
+import { Warehouse } from 'src/models/warehouses/graphql/entity/warehouse.entity'
+import { Product } from 'src/models/products/graphql/entity/product.entity'
+import { BadRequestException } from '@nestjs/common'
+import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
+import { GetUserType } from '@foundation/util/types'
 
 @Resolver(() => Inventory)
 export class InventoriesResolver {
@@ -17,7 +28,6 @@ export class InventoriesResolver {
     private readonly prisma: PrismaService,
   ) {}
 
-  @AllowAuthenticated()
   @Mutation(() => Inventory)
   createInventory(@Args('createInventoryInput') args: CreateInventoryInput) {
     return this.inventoriesService.create(args)
@@ -29,8 +39,30 @@ export class InventoriesResolver {
   }
 
   @Query(() => Inventory, { name: 'inventory' })
-  findOne(@Args() args: FindUniqueInventoryArgs) {
-    return this.inventoriesService.findOne(args)
+  async findOne(@Args() args: FindUniqueInventoryArgs) {
+    const inventory = await this.inventoriesService.findOne(args)
+    if (!inventory) {
+      throw new BadRequestException('Inventory not found')
+    }
+    return inventory
+  }
+
+  @AllowAuthenticated()
+  @Mutation(() => Inventory)
+  async transferInventory(
+    @Args('fromWarehouseId') fromWarehouseId: number,
+    @Args('toWarehouseId') toWarehouseId: number,
+    @Args('productId') productId: number,
+    @Args('quantity') quantity: number,
+    @GetUser() user: GetUserType,
+  ): Promise<Inventory | null> {
+    return this.inventoriesService.transferInventory(
+      fromWarehouseId,
+      toWarehouseId,
+      productId,
+      quantity,
+      user.uid,
+    )
   }
 
   @Mutation(() => Inventory)
@@ -41,5 +73,35 @@ export class InventoriesResolver {
   @Mutation(() => Inventory)
   removeInventory(@Args() args: FindUniqueInventoryArgs) {
     return this.inventoriesService.remove(args)
+  }
+
+  @ResolveField(() => Product)
+  product(@Parent() inventory: Inventory) {
+    return this.prisma.product.findUnique({
+      where: { id: inventory.productId },
+    })
+  }
+
+  @ResolveField(() => Warehouse)
+  warehouse(@Parent() inventory: Inventory) {
+    return this.prisma.warehouse.findUnique({
+      where: { id: inventory.warehouseId },
+    })
+  }
+
+  @AllowAuthenticated()
+  @Mutation(() => Inventory)
+  async reduceInventory(
+    @Args('warehouseId') warehouseId: number,
+    @Args('productId') productId: number,
+    @Args('quantity') quantity: number,
+    @GetUser() user: GetUserType,
+  ): Promise<Inventory | null> {
+    return this.inventoriesService.reduceInventory({
+      uid: user.uid,
+      warehouseId,
+      productId,
+      quantity,
+    })
   }
 }

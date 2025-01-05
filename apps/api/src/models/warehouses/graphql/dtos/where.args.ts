@@ -9,7 +9,7 @@ import {
 import { DistributorRelationFilter } from 'src/models/distributors/graphql/dtos/where.args'
 import { InventoryListRelationFilter } from 'src/models/inventories/graphql/dtos/where.args'
 import { LocationRelationFilter } from 'src/models/locations/graphql/dtos/where.args'
-import { ManufacturersRelationFilter } from 'src/models/manufacturers/graphql/dtos/where.args'
+import { ManufacturerRelationFilter } from 'src/models/manufacturers/graphql/dtos/where.args'
 import { RetailerRelationFilter } from 'src/models/retailers/graphql/dtos/where.args'
 import { TransactionListRelationFilter } from 'src/models/transactions/graphql/dtos/where.args'
 
@@ -32,7 +32,7 @@ export class WarehouseWhereInputStrict
   distributorId: StringFilter
   retailerId: StringFilter
   location: LocationRelationFilter
-  Manufacturer: ManufacturersRelationFilter
+  Manufacturer: ManufacturerRelationFilter
   Distributor: DistributorRelationFilter
   Retailer: RetailerRelationFilter
   Inventory: InventoryListRelationFilter

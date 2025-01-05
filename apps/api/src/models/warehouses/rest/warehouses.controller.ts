@@ -21,7 +21,6 @@ import {
 } from '@nestjs/swagger'
 import { WarehouseEntity } from './entity/warehouse.entity'
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { checkRowLevelPermission } from 'src/common/auth/util'
 import { GetUserType } from '@foundation/util/types'
 
 @ApiTags('warehouses')
@@ -57,13 +56,11 @@ export class WarehousesController {
   @ApiBearerAuth()
   @AllowAuthenticated()
   @Patch(':id')
-  async update(
+  update(
     @Param('id') id: number,
     @Body() updateWarehouseDto: UpdateWarehouse,
     @GetUser() user: GetUserType,
   ) {
-    const warehouse = await this.prisma.warehouse.findUnique({ where: { id } })
-    checkRowLevelPermission(user)
     return this.prisma.warehouse.update({
       where: { id },
       data: updateWarehouseDto,
@@ -73,9 +70,7 @@ export class WarehousesController {
   @ApiBearerAuth()
   @AllowAuthenticated()
   @Delete(':id')
-  async remove(@Param('id') id: number, @GetUser() user: GetUserType) {
-    const warehouse = await this.prisma.warehouse.findUnique({ where: { id } })
-    checkRowLevelPermission(user)
+  remove(@Param('id') id: number) {
     return this.prisma.warehouse.delete({ where: { id } })
   }
 }

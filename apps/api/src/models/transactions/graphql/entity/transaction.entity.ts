@@ -14,4 +14,6 @@ export class Transaction
   fromWarehouseId: number
   @Field({ nullable: true })
   toWarehouseId: number
+  // Todo Add below to make optional fields optional.
+  // @Field({ nullable: true })
 }

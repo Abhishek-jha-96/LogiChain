@@ -21,7 +21,6 @@ import {
 } from '@nestjs/swagger'
 import { DistributorEntity } from './entity/distributor.entity'
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { checkRowLevelPermission } from 'src/common/auth/util'
 import { GetUserType } from '@foundation/util/types'
 
 @ApiTags('distributors')
@@ -33,11 +32,7 @@ export class DistributorsController {
   @ApiBearerAuth()
   @ApiCreatedResponse({ type: DistributorEntity })
   @Post()
-  create(
-    @Body() createDistributorDto: CreateDistributor,
-    @GetUser() user: GetUserType,
-  ) {
-    checkRowLevelPermission(user, createDistributorDto.uid)
+  create(@Body() createDistributorDto: CreateDistributor) {
     return this.prisma.distributor.create({ data: createDistributorDto })
   }
 
@@ -60,16 +55,12 @@ export class DistributorsController {
   @ApiOkResponse({ type: DistributorEntity })
   @ApiBearerAuth()
   @AllowAuthenticated()
-  @Patch(':id')
-  async update(
+  @Patch(':uid')
+  update(
     @Param('uid') uid: string,
     @Body() updateDistributorDto: UpdateDistributor,
     @GetUser() user: GetUserType,
   ) {
-    const distributor = await this.prisma.distributor.findUnique({
-      where: { uid },
-    })
-    checkRowLevelPermission(user, distributor.uid)
     return this.prisma.distributor.update({
       where: { uid },
       data: updateDistributorDto,
@@ -79,11 +70,7 @@ export class DistributorsController {
   @ApiBearerAuth()
   @AllowAuthenticated()
   @Delete(':uid')
-  async remove(@Param('uid') uid: string, @GetUser() user: GetUserType) {
-    const distributor = await this.prisma.distributor.findUnique({
-      where: { uid },
-    })
-    checkRowLevelPermission(user, distributor.uid)
+  remove(@Param('uid') uid: string) {
     return this.prisma.distributor.delete({ where: { uid } })
   }
 }

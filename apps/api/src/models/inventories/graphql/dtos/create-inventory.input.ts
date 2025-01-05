@@ -1,9 +1,9 @@
-import { InputType, OmitType } from '@nestjs/graphql'
+import { InputType, PickType } from '@nestjs/graphql'
 import { Inventory } from '../entity/inventory.entity'
 
 @InputType()
-export class CreateInventoryInput extends OmitType(
+export class CreateInventoryInput extends PickType(
   Inventory,
-  ['id', 'createdAt', 'updatedAt'],
+  ['quantity', 'productId', 'warehouseId'],
   InputType,
 ) {}

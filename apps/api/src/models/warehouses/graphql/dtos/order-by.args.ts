@@ -4,7 +4,7 @@ import { RestrictProperties } from 'src/common/dtos/common.input'
 import { DistributorOrderByWithRelationInput } from 'src/models/distributors/graphql/dtos/order-by.args'
 import { InventoryOrderByRelationAggregateInput } from 'src/models/inventories/graphql/dtos/order-by.args'
 import { LocationOrderByWithRelationInput } from 'src/models/locations/graphql/dtos/order-by.args'
-import { ManufacturersOrderByWithRelationInput } from 'src/models/manufacturers/graphql/dtos/order-by.args'
+import { ManufacturerOrderByWithRelationInput } from 'src/models/manufacturers/graphql/dtos/order-by.args'
 import { RetailerOrderByWithRelationInput } from 'src/models/retailers/graphql/dtos/order-by.args'
 import { TransactionOrderByRelationAggregateInput } from 'src/models/transactions/graphql/dtos/order-by.args'
 
@@ -17,6 +17,8 @@ export class WarehouseOrderByWithRelationInputStrict
     >
 {
   @Field(() => Prisma.SortOrder)
+  description: Prisma.SortOrder
+  @Field(() => Prisma.SortOrder)
   id: Prisma.SortOrder
   @Field(() => Prisma.SortOrder)
   createdAt: Prisma.SortOrder
@@ -25,15 +27,13 @@ export class WarehouseOrderByWithRelationInputStrict
   @Field(() => Prisma.SortOrder)
   name: Prisma.SortOrder
   @Field(() => Prisma.SortOrder)
-  description: Prisma.SortOrder
-  @Field(() => Prisma.SortOrder)
   manufacturerId: Prisma.SortOrder
   @Field(() => Prisma.SortOrder)
   distributorId: Prisma.SortOrder
   @Field(() => Prisma.SortOrder)
   retailerId: Prisma.SortOrder
   location: LocationOrderByWithRelationInput
-  Manufacturer: ManufacturersOrderByWithRelationInput
+  Manufacturer: ManufacturerOrderByWithRelationInput
   Distributor: DistributorOrderByWithRelationInput
   Retailer: RetailerOrderByWithRelationInput
   Inventory: InventoryOrderByRelationAggregateInput

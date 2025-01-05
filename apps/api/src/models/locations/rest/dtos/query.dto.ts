@@ -6,8 +6,4 @@ export class LocationQueryDto extends BaseQueryDto {
   @IsOptional()
   @IsIn(Object.values(Prisma.LocationScalarFieldEnum))
   sortBy?: string
-
-  @IsOptional()
-  @IsIn(Object.values(Prisma.LocationScalarFieldEnum))
-  searchBy?: string
 }

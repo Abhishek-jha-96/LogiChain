@@ -1,18 +1,28 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
-import { ManufacturersService } from './manufacturers.service'
-import { Manufacturers } from './entity/manufacturers.entity'
 import {
-  FindManyManufacturersArgs,
-  FindUniqueManufacturersArgs,
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql'
+import { ManufacturersService } from './manufacturers.service'
+import { Manufacturer } from './entity/manufacturer.entity'
+import {
+  FindManyManufacturerArgs,
+  FindUniqueManufacturerArgs,
 } from './dtos/find.args'
-import { CreateManufacturersInput } from './dtos/create-manufacturers.input'
-import { UpdateManufacturersInput } from './dtos/update-manufacturers.input'
-import { checkRowLevelPermission } from 'src/common/auth/util'
-import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
+import { CreateManufacturerInput } from './dtos/create-manufacturer.input'
+import { UpdateManufacturerInput } from './dtos/update-manufacturer.input'
+import { Product } from 'src/models/products/graphql/entity/product.entity'
 import { PrismaService } from 'src/common/prisma/prisma.service'
+import { Warehouse } from 'src/models/warehouses/graphql/entity/warehouse.entity'
+import { User } from 'src/models/users/graphql/entity/user.entity'
+import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
 import { GetUserType } from '@foundation/util/types'
+import { checkRowLevelPermission } from 'src/common/auth/util'
 
-@Resolver(() => Manufacturers)
+@Resolver(() => Manufacturer)
 export class ManufacturersResolver {
   constructor(
     private readonly manufacturersService: ManufacturersService,
@@ -20,46 +30,55 @@ export class ManufacturersResolver {
   ) {}
 
   @AllowAuthenticated()
-  @Mutation(() => Manufacturers)
-  createManufacturers(
-    @Args('createManufacturersInput') args: CreateManufacturersInput,
+  @Mutation(() => Manufacturer)
+  createManufacturer(
+    @Args('createManufacturerInput') args: CreateManufacturerInput,
     @GetUser() user: GetUserType,
   ) {
     checkRowLevelPermission(user, args.uid)
     return this.manufacturersService.create(args)
   }
 
-  @Query(() => [Manufacturers], { name: 'manufacturers' })
-  findAll(@Args() args: FindManyManufacturersArgs) {
+  @Query(() => [Manufacturer], { name: 'manufacturers' })
+  findAll(@Args() args: FindManyManufacturerArgs) {
     return this.manufacturersService.findAll(args)
   }
 
-  @Query(() => Manufacturers, { name: 'manufacturers' })
-  findOne(@Args() args: FindUniqueManufacturersArgs) {
+  @Query(() => Manufacturer, { name: 'manufacturer' })
+  findOne(@Args() args: FindUniqueManufacturerArgs) {
     return this.manufacturersService.findOne(args)
   }
 
-  @AllowAuthenticated()
-  @Mutation(() => Manufacturers)
-  async updateManufacturers(
-    @Args('updateManufacturersInput') args: UpdateManufacturersInput,
-    @GetUser() user: GetUserType,
+  @Mutation(() => Manufacturer)
+  updateManufacturer(
+    @Args('updateManufacturerInput') args: UpdateManufacturerInput,
   ) {
-    const manufacturers = await this.prisma.manufacturer.findUnique({
-      where: { uid: args.uid },
-    })
-    checkRowLevelPermission(user, manufacturers.uid)
     return this.manufacturersService.update(args)
   }
 
-  @AllowAuthenticated()
-  @Mutation(() => Manufacturers)
-  async removeManufacturers(
-    @Args() args: FindUniqueManufacturersArgs,
-    @GetUser() user: GetUserType,
-  ) {
-    const manufacturers = await this.prisma.manufacturer.findUnique(args)
-    checkRowLevelPermission(user, manufacturers.uid)
+  @Mutation(() => Manufacturer)
+  removeManufacturer(@Args() args: FindUniqueManufacturerArgs) {
     return this.manufacturersService.remove(args)
+  }
+
+  @ResolveField(() => User)
+  user(@Parent() manufacturer: Manufacturer) {
+    return this.prisma.user.findUnique({
+      where: { uid: manufacturer.uid },
+    })
+  }
+
+  @ResolveField(() => [Product])
+  products(@Parent() parent: Manufacturer) {
+    return this.prisma.product.findMany({
+      where: { manufacturerId: parent.uid },
+    })
+  }
+
+  @ResolveField(() => [Warehouse])
+  warehouses(@Parent() parent: Manufacturer) {
+    return this.prisma.warehouse.findMany({
+      where: { manufacturerId: parent.uid },
+    })
   }
 }

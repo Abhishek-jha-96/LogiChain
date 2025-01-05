@@ -1,27 +1,27 @@
 import { ArgsType, Field, registerEnumType, PartialType } from '@nestjs/graphql'
 import { Prisma } from '@prisma/client'
-import { ManufacturersOrderByWithRelationInput } from './order-by.args'
+import { ManufacturerOrderByWithRelationInput } from './order-by.args'
 import {
-  ManufacturersWhereInput,
-  ManufacturersWhereUniqueInput,
+  ManufacturerWhereInput,
+  ManufacturerWhereUniqueInput,
 } from './where.args'
 import { RestrictProperties } from 'src/common/dtos/common.input'
 
 registerEnumType(Prisma.ManufacturerScalarFieldEnum, {
-  name: 'ManufacturersScalarFieldEnum',
+  name: 'ManufacturerScalarFieldEnum',
 })
 
 @ArgsType()
-class FindManyManufacturersArgsStrict
+class FindManyManufacturerArgsStrict
   implements
     RestrictProperties<
-      FindManyManufacturersArgsStrict,
+      FindManyManufacturerArgsStrict,
       Omit<Prisma.ManufacturerFindManyArgs, 'include' | 'select'>
     >
 {
-  where: ManufacturersWhereInput
-  orderBy: ManufacturersOrderByWithRelationInput[]
-  cursor: ManufacturersWhereUniqueInput
+  where: ManufacturerWhereInput
+  orderBy: ManufacturerOrderByWithRelationInput[]
+  cursor: ManufacturerWhereUniqueInput
   take: number
   skip: number
   @Field(() => [Prisma.ManufacturerScalarFieldEnum])
@@ -29,11 +29,11 @@ class FindManyManufacturersArgsStrict
 }
 
 @ArgsType()
-export class FindManyManufacturersArgs extends PartialType(
-  FindManyManufacturersArgsStrict,
+export class FindManyManufacturerArgs extends PartialType(
+  FindManyManufacturerArgsStrict,
 ) {}
 
 @ArgsType()
-export class FindUniqueManufacturersArgs {
-  where: ManufacturersWhereUniqueInput
+export class FindUniqueManufacturerArgs {
+  where: ManufacturerWhereUniqueInput
 }

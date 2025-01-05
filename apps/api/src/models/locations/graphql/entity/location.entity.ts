@@ -11,4 +11,6 @@ export class Location implements RestrictProperties<Location, LocationType> {
   longitude: number
   address: string
   warehouseId: number
+  // Todo Add below to make optional fields optional.
+  // @Field({ nullable: true })
 }

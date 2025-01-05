@@ -18,11 +18,8 @@ export class DistributorOrderByWithRelationInputStrict
   createdAt: Prisma.SortOrder
   @Field(() => Prisma.SortOrder)
   updatedAt: Prisma.SortOrder
-
   user: UserOrderByWithRelationInput
   Warehouse: WarehouseOrderByRelationAggregateInput
-  // Todo: Add below field decorator to the SortOrder properties.
-  // @Field(() => Prisma.SortOrder)
 }
 
 @InputType()

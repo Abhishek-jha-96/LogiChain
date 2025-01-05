@@ -13,19 +13,14 @@ export class LocationOrderByWithRelationInputStrict
 {
   @Field(() => Prisma.SortOrder)
   id: Prisma.SortOrder
-
   @Field(() => Prisma.SortOrder)
   latitude: Prisma.SortOrder
-
   @Field(() => Prisma.SortOrder)
   longitude: Prisma.SortOrder
-
   @Field(() => Prisma.SortOrder)
   address: Prisma.SortOrder
-
   @Field(() => Prisma.SortOrder)
   warehouseId: Prisma.SortOrder
-
   Warehouse: WarehouseOrderByWithRelationInput
 }
 

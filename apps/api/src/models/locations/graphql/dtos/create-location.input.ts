@@ -7,7 +7,6 @@ export class CreateLocationInput extends PickType(
   ['address', 'latitude', 'longitude', 'warehouseId'],
   InputType,
 ) {}
-
 @InputType()
 export class CreateLocationInputWithoutWarehouseId extends PickType(
   Location,

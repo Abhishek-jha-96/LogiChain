@@ -1,4 +1,11 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql'
 import { DistributorsService } from './distributors.service'
 import { Distributor } from './entity/distributor.entity'
 import {
@@ -7,10 +14,9 @@ import {
 } from './dtos/find.args'
 import { CreateDistributorInput } from './dtos/create-distributor.input'
 import { UpdateDistributorInput } from './dtos/update-distributor.input'
-import { checkRowLevelPermission } from 'src/common/auth/util'
-import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
+import { User } from 'src/models/users/graphql/entity/user.entity'
+import { Warehouse } from 'src/models/warehouses/graphql/entity/warehouse.entity'
 import { PrismaService } from 'src/common/prisma/prisma.service'
-import { GetUserType } from '@foundation/util/types'
 
 @Resolver(() => Distributor)
 export class DistributorsResolver {
@@ -19,13 +25,10 @@ export class DistributorsResolver {
     private readonly prisma: PrismaService,
   ) {}
 
-  @AllowAuthenticated()
   @Mutation(() => Distributor)
   createDistributor(
     @Args('createDistributorInput') args: CreateDistributorInput,
-    @GetUser() user: GetUserType,
   ) {
-    checkRowLevelPermission(user, args.uid)
     return this.distributorsService.create(args)
   }
 
@@ -39,27 +42,29 @@ export class DistributorsResolver {
     return this.distributorsService.findOne(args)
   }
 
-  @AllowAuthenticated()
   @Mutation(() => Distributor)
-  async updateDistributor(
+  updateDistributor(
     @Args('updateDistributorInput') args: UpdateDistributorInput,
-    @GetUser() user: GetUserType,
   ) {
-    const distributor = await this.prisma.distributor.findUnique({
-      where: { uid: args.uid },
-    })
-    checkRowLevelPermission(user, distributor.uid)
     return this.distributorsService.update(args)
   }
 
-  @AllowAuthenticated()
   @Mutation(() => Distributor)
-  async removeDistributor(
-    @Args() args: FindUniqueDistributorArgs,
-    @GetUser() user: GetUserType,
-  ) {
-    const distributor = await this.prisma.distributor.findUnique(args)
-    checkRowLevelPermission(user, distributor.uid)
+  removeDistributor(@Args() args: FindUniqueDistributorArgs) {
     return this.distributorsService.remove(args)
+  }
+
+  @ResolveField(() => User)
+  user(@Parent() distributor: Distributor) {
+    return this.prisma.user.findUnique({
+      where: { uid: distributor.uid },
+    })
+  }
+
+  @ResolveField(() => [Warehouse])
+  warehouses(@Parent() distributor: Distributor) {
+    return this.prisma.warehouse.findMany({
+      where: { distributorId: distributor.uid },
+    })
   }
 }

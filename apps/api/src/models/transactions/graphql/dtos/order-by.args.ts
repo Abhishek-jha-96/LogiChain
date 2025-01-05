@@ -24,7 +24,6 @@ export class TransactionOrderByWithRelationInputStrict
   fromWarehouseId: Prisma.SortOrder
   @Field(() => Prisma.SortOrder)
   toWarehouseId: Prisma.SortOrder
-
   product: ProductOrderByWithRelationInput
   fromWarehouse: WarehouseOrderByWithRelationInput
   toWarehouse: WarehouseOrderByWithRelationInput

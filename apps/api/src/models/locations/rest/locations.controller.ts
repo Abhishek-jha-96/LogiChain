@@ -21,7 +21,6 @@ import {
 } from '@nestjs/swagger'
 import { LocationEntity } from './entity/location.entity'
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { checkRowLevelPermission } from 'src/common/auth/util'
 import { GetUserType } from '@foundation/util/types'
 
 @ApiTags('locations')
@@ -33,11 +32,7 @@ export class LocationsController {
   @ApiBearerAuth()
   @ApiCreatedResponse({ type: LocationEntity })
   @Post()
-  create(
-    @Body() createLocationDto: CreateLocation,
-    @GetUser() user: GetUserType,
-  ) {
-    checkRowLevelPermission(user)
+  create(@Body() createLocationDto: CreateLocation) {
     return this.prisma.location.create({ data: createLocationDto })
   }
 
@@ -61,12 +56,11 @@ export class LocationsController {
   @ApiBearerAuth()
   @AllowAuthenticated()
   @Patch(':id')
-  async update(
+  update(
     @Param('id') id: number,
     @Body() updateLocationDto: UpdateLocation,
     @GetUser() user: GetUserType,
   ) {
-    checkRowLevelPermission(user)
     return this.prisma.location.update({
       where: { id },
       data: updateLocationDto,
@@ -76,8 +70,7 @@ export class LocationsController {
   @ApiBearerAuth()
   @AllowAuthenticated()
   @Delete(':id')
-  async remove(@Param('id') id: number, @GetUser() user: GetUserType) {
-    checkRowLevelPermission(user)
+  remove(@Param('id') id: number) {
     return this.prisma.location.delete({ where: { id } })
   }
 }

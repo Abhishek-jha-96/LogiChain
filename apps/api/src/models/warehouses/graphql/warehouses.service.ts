@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable } from '@nestjs/common'
 import {
   FindManyWarehouseArgs,
   FindUniqueWarehouseArgs,
@@ -10,9 +10,40 @@ import { UpdateWarehouseInput } from './dtos/update-warehouse.input'
 @Injectable()
 export class WarehousesService {
   constructor(private readonly prisma: PrismaService) {}
-  create(createWarehouseInput: CreateWarehouseInput) {
+  create({
+    address,
+    description,
+    name,
+    manufacturerId,
+    distributorId,
+    retailerId,
+  }: CreateWarehouseInput) {
+    if (!manufacturerId && !retailerId && !distributorId) {
+      throw new BadRequestException(
+        'Specify one of the manufacturerId, retailerId, distributorId',
+      )
+    }
     return this.prisma.warehouse.create({
-      data: createWarehouseInput,
+      data: {
+        name,
+        description,
+        location: { create: address },
+        ...(manufacturerId && {
+          Manufacturer: {
+            connect: { uid: manufacturerId },
+          },
+        }),
+        ...(distributorId && {
+          Distributor: {
+            connect: { uid: distributorId },
+          },
+        }),
+        ...(retailerId && {
+          Retailer: {
+            connect: { uid: retailerId },
+          },
+        }),
+      },
     })
   }
 

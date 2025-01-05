@@ -1,10 +1,10 @@
 import { ObjectType } from '@nestjs/graphql'
-import { Manufacturer as ManufacturersType } from '@prisma/client'
+import { Manufacturer as ManufacturerType } from '@prisma/client'
 import { RestrictProperties } from 'src/common/dtos/common.input'
 
 @ObjectType()
-export class Manufacturers
-  implements RestrictProperties<Manufacturers, ManufacturersType>
+export class Manufacturer
+  implements RestrictProperties<Manufacturer, ManufacturerType>
 {
   uid: string
   createdAt: Date

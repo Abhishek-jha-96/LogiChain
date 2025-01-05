@@ -7,7 +7,7 @@ import {
   StringFilter,
 } from 'src/common/dtos/common.input'
 import { InventoryListRelationFilter } from 'src/models/inventories/graphql/dtos/where.args'
-import { ManufacturersRelationFilter } from 'src/models/manufacturers/graphql/dtos/where.args'
+import { ManufacturerRelationFilter } from 'src/models/manufacturers/graphql/dtos/where.args'
 import { TransactionListRelationFilter } from 'src/models/transactions/graphql/dtos/where.args'
 
 @InputType()
@@ -27,7 +27,7 @@ export class ProductWhereInputStrict
   description: StringFilter
   image: StringFilter
   manufacturerId: StringFilter
-  Manufacturer: ManufacturersRelationFilter
+  Manufacturer: ManufacturerRelationFilter
   Inventory: InventoryListRelationFilter
   Transaction: TransactionListRelationFilter
 

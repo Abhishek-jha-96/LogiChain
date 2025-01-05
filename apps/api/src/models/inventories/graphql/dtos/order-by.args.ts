@@ -14,22 +14,16 @@ export class InventoryOrderByWithRelationInputStrict
 {
   @Field(() => Prisma.SortOrder)
   id: Prisma.SortOrder
-
   @Field(() => Prisma.SortOrder)
   createdAt: Prisma.SortOrder
-
   @Field(() => Prisma.SortOrder)
   updatedAt: Prisma.SortOrder
-
   @Field(() => Prisma.SortOrder)
   productId: Prisma.SortOrder
-
   @Field(() => Prisma.SortOrder)
   warehouseId: Prisma.SortOrder
-
   @Field(() => Prisma.SortOrder)
   quantity: Prisma.SortOrder
-
   product: ProductOrderByWithRelationInput
   warehouse: WarehouseOrderByWithRelationInput
 }

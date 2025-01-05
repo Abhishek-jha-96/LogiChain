@@ -1,38 +1,38 @@
 import { Injectable } from '@nestjs/common'
 import {
-  FindManyManufacturersArgs,
-  FindUniqueManufacturersArgs,
+  FindManyManufacturerArgs,
+  FindUniqueManufacturerArgs,
 } from './dtos/find.args'
 import { PrismaService } from 'src/common/prisma/prisma.service'
-import { CreateManufacturersInput } from './dtos/create-manufacturers.input'
-import { UpdateManufacturersInput } from './dtos/update-manufacturers.input'
+import { CreateManufacturerInput } from './dtos/create-manufacturer.input'
+import { UpdateManufacturerInput } from './dtos/update-manufacturer.input'
 
 @Injectable()
 export class ManufacturersService {
   constructor(private readonly prisma: PrismaService) {}
-  create(createManufacturersInput: CreateManufacturersInput) {
+  create(createManufacturerInput: CreateManufacturerInput) {
     return this.prisma.manufacturer.create({
-      data: createManufacturersInput,
+      data: createManufacturerInput,
     })
   }
 
-  findAll(args: FindManyManufacturersArgs) {
+  findAll(args: FindManyManufacturerArgs) {
     return this.prisma.manufacturer.findMany(args)
   }
 
-  findOne(args: FindUniqueManufacturersArgs) {
+  findOne(args: FindUniqueManufacturerArgs) {
     return this.prisma.manufacturer.findUnique(args)
   }
 
-  update(updateManufacturersInput: UpdateManufacturersInput) {
-    const { uid, ...data } = updateManufacturersInput
+  update(updateManufacturerInput: UpdateManufacturerInput) {
+    const { uid, ...data } = updateManufacturerInput
     return this.prisma.manufacturer.update({
       where: { uid },
       data: data,
     })
   }
 
-  remove(args: FindUniqueManufacturersArgs) {
+  remove(args: FindUniqueManufacturerArgs) {
     return this.prisma.manufacturer.delete(args)
   }
 }

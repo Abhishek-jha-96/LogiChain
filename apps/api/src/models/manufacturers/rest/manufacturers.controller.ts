@@ -11,17 +11,16 @@ import {
 
 import { PrismaService } from 'src/common/prisma/prisma.service'
 import { ApiTags } from '@nestjs/swagger'
-import { CreateManufacturers } from './dtos/create.dto'
-import { ManufacturersQueryDto } from './dtos/query.dto'
-import { UpdateManufacturers } from './dtos/update.dto'
+import { CreateManufacturer } from './dtos/create.dto'
+import { ManufacturerQueryDto } from './dtos/query.dto'
+import { UpdateManufacturer } from './dtos/update.dto'
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
   ApiOkResponse,
 } from '@nestjs/swagger'
-import { ManufacturersEntity } from './entity/manufacturers.entity'
+import { ManufacturerEntity } from './entity/manufacturer.entity'
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { checkRowLevelPermission } from 'src/common/auth/util'
 import { GetUserType } from '@foundation/util/types'
 
 @ApiTags('manufacturers')
@@ -31,15 +30,15 @@ export class ManufacturersController {
 
   @AllowAuthenticated()
   @ApiBearerAuth()
-  @ApiCreatedResponse({ type: ManufacturersEntity })
+  @ApiCreatedResponse({ type: ManufacturerEntity })
   @Post()
-  create(@Body() createManufacturerDto: CreateManufacturers) {
+  create(@Body() createManufacturerDto: CreateManufacturer) {
     return this.prisma.manufacturer.create({ data: createManufacturerDto })
   }
 
-  @ApiOkResponse({ type: [ManufacturersEntity] })
+  @ApiOkResponse({ type: [ManufacturerEntity] })
   @Get()
-  findAll(@Query() { skip, take, order, sortBy }: ManufacturersQueryDto) {
+  findAll(@Query() { skip, take, order, sortBy }: ManufacturerQueryDto) {
     return this.prisma.manufacturer.findMany({
       ...(skip ? { skip: +skip } : null),
       ...(take ? { take: +take } : null),
@@ -47,39 +46,31 @@ export class ManufacturersController {
     })
   }
 
-  @ApiOkResponse({ type: ManufacturersEntity })
+  @ApiOkResponse({ type: ManufacturerEntity })
   @Get(':uid')
   findOne(@Param('uid') uid: string) {
     return this.prisma.manufacturer.findUnique({ where: { uid } })
   }
 
-  @ApiOkResponse({ type: ManufacturersEntity })
+  @ApiOkResponse({ type: ManufacturerEntity })
   @ApiBearerAuth()
   @AllowAuthenticated()
   @Patch(':uid')
-  async update(
+  update(
     @Param('uid') uid: string,
-    @Body() updateManufacturersDto: UpdateManufacturers,
+    @Body() updateManufacturerDto: UpdateManufacturer,
     @GetUser() user: GetUserType,
   ) {
-    const manufacturers = await this.prisma.manufacturer.findUnique({
-      where: { uid },
-    })
-    checkRowLevelPermission(user, manufacturers.uid)
     return this.prisma.manufacturer.update({
       where: { uid },
-      data: updateManufacturersDto,
+      data: updateManufacturerDto,
     })
   }
 
   @ApiBearerAuth()
   @AllowAuthenticated()
   @Delete(':uid')
-  async remove(@Param('uid') uid: string, @GetUser() user: GetUserType) {
-    const manufacturers = await this.prisma.manufacturer.findUnique({
-      where: { uid },
-    })
-    checkRowLevelPermission(user, manufacturers.uid)
+  remove(@Param('uid') uid: string) {
     return this.prisma.manufacturer.delete({ where: { uid } })
   }
 }

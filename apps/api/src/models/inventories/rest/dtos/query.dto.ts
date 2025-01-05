@@ -6,8 +6,4 @@ export class InventoryQueryDto extends BaseQueryDto {
   @IsOptional()
   @IsIn(Object.values(Prisma.InventoryScalarFieldEnum))
   sortBy?: string
-
-  @IsOptional()
-  @IsIn(Object.values(Prisma.InventoryScalarFieldEnum))
-  searchBy?: string
 }

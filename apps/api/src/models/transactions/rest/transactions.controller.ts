@@ -21,7 +21,6 @@ import {
 } from '@nestjs/swagger'
 import { TransactionEntity } from './entity/transaction.entity'
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { checkRowLevelPermission } from 'src/common/auth/util'
 import { GetUserType } from '@foundation/util/types'
 
 @ApiTags('transactions')
@@ -33,11 +32,7 @@ export class TransactionsController {
   @ApiBearerAuth()
   @ApiCreatedResponse({ type: TransactionEntity })
   @Post()
-  create(
-    @Body() createTransactionDto: CreateTransaction,
-    @GetUser() user: GetUserType,
-  ) {
-    checkRowLevelPermission(user)
+  create(@Body() createTransactionDto: CreateTransaction) {
     return this.prisma.transaction.create({ data: createTransactionDto })
   }
 
@@ -61,15 +56,11 @@ export class TransactionsController {
   @ApiBearerAuth()
   @AllowAuthenticated()
   @Patch(':id')
-  async update(
+  update(
     @Param('id') id: number,
     @Body() updateTransactionDto: UpdateTransaction,
     @GetUser() user: GetUserType,
   ) {
-    const transaction = await this.prisma.transaction.findUnique({
-      where: { id },
-    })
-    checkRowLevelPermission(user)
     return this.prisma.transaction.update({
       where: { id },
       data: updateTransactionDto,
@@ -79,11 +70,7 @@ export class TransactionsController {
   @ApiBearerAuth()
   @AllowAuthenticated()
   @Delete(':id')
-  async remove(@Param('id') id: number, @GetUser() user: GetUserType) {
-    const transaction = await this.prisma.transaction.findUnique({
-      where: { id },
-    })
-    checkRowLevelPermission(user)
+  remove(@Param('id') id: number) {
     return this.prisma.transaction.delete({ where: { id } })
   }
 }

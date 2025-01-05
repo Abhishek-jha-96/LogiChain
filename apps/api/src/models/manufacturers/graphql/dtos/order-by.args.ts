@@ -6,10 +6,10 @@ import { UserOrderByWithRelationInput } from 'src/models/users/graphql/dtos/orde
 import { WarehouseOrderByRelationAggregateInput } from 'src/models/warehouses/graphql/dtos/order-by.args'
 
 @InputType()
-export class ManufacturersOrderByWithRelationInputStrict
+export class ManufacturerOrderByWithRelationInputStrict
   implements
     RestrictProperties<
-      ManufacturersOrderByWithRelationInputStrict,
+      ManufacturerOrderByWithRelationInputStrict,
       Prisma.ManufacturerOrderByWithRelationInput
     >
 {
@@ -19,19 +19,19 @@ export class ManufacturersOrderByWithRelationInputStrict
   createdAt: Prisma.SortOrder
   @Field(() => Prisma.SortOrder)
   updatedAt: Prisma.SortOrder
-  @Field(() => Prisma.SortOrder)
+
   user: UserOrderByWithRelationInput
   Product: ProductOrderByRelationAggregateInput
   Warehouse: WarehouseOrderByRelationAggregateInput
 }
 
 @InputType()
-export class ManufacturersOrderByWithRelationInput extends PartialType(
-  ManufacturersOrderByWithRelationInputStrict,
+export class ManufacturerOrderByWithRelationInput extends PartialType(
+  ManufacturerOrderByWithRelationInputStrict,
 ) {}
 
 @InputType()
-export class ManufacturersOrderByRelationAggregateInput {
+export class ManufacturerOrderByRelationAggregateInput {
   @Field(() => Prisma.SortOrder)
   _count?: Prisma.SortOrder
 }

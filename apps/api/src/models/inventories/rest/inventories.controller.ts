@@ -20,7 +20,8 @@ import {
   ApiOkResponse,
 } from '@nestjs/swagger'
 import { InventoryEntity } from './entity/inventory.entity'
-import { AllowAuthenticated } from 'src/common/auth/auth.decorator'
+import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
+import { GetUserType } from '@foundation/util/types'
 
 @ApiTags('inventories')
 @Controller('inventories')
@@ -55,9 +56,10 @@ export class InventoriesController {
   @ApiBearerAuth()
   @AllowAuthenticated()
   @Patch(':id')
-  async update(
+  update(
     @Param('id') id: number,
     @Body() updateInventoryDto: UpdateInventory,
+    @GetUser() user: GetUserType,
   ) {
     return this.prisma.inventory.update({
       where: { id },
@@ -68,7 +70,7 @@ export class InventoriesController {
   @ApiBearerAuth()
   @AllowAuthenticated()
   @Delete(':id')
-  async remove(@Param('id') id: number) {
+  remove(@Param('id') id: number) {
     return this.prisma.inventory.delete({ where: { id } })
   }
 }

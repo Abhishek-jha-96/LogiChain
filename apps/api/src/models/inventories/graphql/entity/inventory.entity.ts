@@ -10,4 +10,6 @@ export class Inventory implements RestrictProperties<Inventory, InventoryType> {
   productId: number
   warehouseId: number
   quantity: number
+  // Todo Add below to make optional fields optional.
+  // @Field({ nullable: true })
 }

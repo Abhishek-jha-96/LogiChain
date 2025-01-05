@@ -6,8 +6,4 @@ export class RetailerQueryDto extends BaseQueryDto {
   @IsOptional()
   @IsIn(Object.values(Prisma.RetailerScalarFieldEnum))
   sortBy?: string
-
-  @IsOptional()
-  @IsIn(Object.values(Prisma.RetailerScalarFieldEnum))
-  searchBy?: string
 }

@@ -1,12 +1,21 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql'
 import { ProductsService } from './products.service'
 import { Product } from './entity/product.entity'
 import { FindManyProductArgs, FindUniqueProductArgs } from './dtos/find.args'
 import { CreateProductInput } from './dtos/create-product.input'
 import { UpdateProductInput } from './dtos/update-product.input'
-import { checkRowLevelPermission } from 'src/common/auth/util'
-import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
 import { PrismaService } from 'src/common/prisma/prisma.service'
+import { Manufacturer } from 'src/models/manufacturers/graphql/entity/manufacturer.entity'
+import { Inventory } from 'src/models/inventories/graphql/entity/inventory.entity'
+import { Transaction } from 'src/models/transactions/graphql/entity/transaction.entity'
+import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
 import { GetUserType } from '@foundation/util/types'
 
 @Resolver(() => Product)
@@ -16,13 +25,8 @@ export class ProductsResolver {
     private readonly prisma: PrismaService,
   ) {}
 
-  @AllowAuthenticated()
   @Mutation(() => Product)
-  createProduct(
-    @Args('createProductInput') args: CreateProductInput,
-    @GetUser() user: GetUserType,
-  ) {
-    checkRowLevelPermission(user)
+  createProduct(@Args('createProductInput') args: CreateProductInput) {
     return this.productsService.create(args)
   }
 
@@ -31,32 +35,48 @@ export class ProductsResolver {
     return this.productsService.findAll(args)
   }
 
+  @AllowAuthenticated()
+  @Query(() => [Product], { name: 'myProducts' })
+  myProducts(@Args() args: FindManyProductArgs, @GetUser() user: GetUserType) {
+    return this.productsService.findAll({
+      ...args,
+      where: { ...args.where, manufacturerId: { equals: user.uid } },
+    })
+  }
+
   @Query(() => Product, { name: 'product' })
   findOne(@Args() args: FindUniqueProductArgs) {
     return this.productsService.findOne(args)
   }
 
-  @AllowAuthenticated()
   @Mutation(() => Product)
-  async updateProduct(
-    @Args('updateProductInput') args: UpdateProductInput,
-    @GetUser() user: GetUserType,
-  ) {
-    const product = await this.prisma.product.findUnique({
-      where: { id: args.id },
-    })
-    checkRowLevelPermission(user)
+  updateProduct(@Args('updateProductInput') args: UpdateProductInput) {
     return this.productsService.update(args)
   }
 
-  @AllowAuthenticated()
   @Mutation(() => Product)
-  async removeProduct(
-    @Args() args: FindUniqueProductArgs,
-    @GetUser() user: GetUserType,
-  ) {
-    const product = await this.prisma.product.findUnique(args)
-    checkRowLevelPermission(user)
+  removeProduct(@Args() args: FindUniqueProductArgs) {
     return this.productsService.remove(args)
+  }
+
+  @ResolveField(() => Manufacturer)
+  manufacturer(@Parent() product: Product) {
+    return this.prisma.manufacturer.findUnique({
+      where: { uid: product.manufacturerId },
+    })
+  }
+
+  @ResolveField(() => [Inventory])
+  inventories(@Parent() product: Product) {
+    return this.prisma.inventory.findMany({
+      where: { productId: product.id },
+    })
+  }
+
+  @ResolveField(() => [Transaction])
+  transactions(@Parent() product: Product) {
+    return this.prisma.transaction.findMany({
+      where: { productId: product.id },
+    })
   }
 }

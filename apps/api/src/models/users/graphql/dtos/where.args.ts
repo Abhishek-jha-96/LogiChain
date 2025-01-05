@@ -1,4 +1,4 @@
-import { InputType, PartialType } from '@nestjs/graphql'
+import { Field, InputType, PartialType } from '@nestjs/graphql'
 import { Prisma } from '@prisma/client'
 import {
   DateTimeFilter,
@@ -6,7 +6,7 @@ import {
   StringFilter,
 } from 'src/common/dtos/common.input'
 import { DistributorRelationFilter } from 'src/models/distributors/graphql/dtos/where.args'
-import { ManufacturersRelationFilter } from 'src/models/manufacturers/graphql/dtos/where.args'
+import { ManufacturerRelationFilter } from 'src/models/manufacturers/graphql/dtos/where.args'
 import { RetailerRelationFilter } from 'src/models/retailers/graphql/dtos/where.args'
 
 @InputType()
@@ -25,7 +25,7 @@ export class UserWhereInputStrict
       >
     >
 {
-  Manufacturer: ManufacturersRelationFilter
+  Manufacturer: ManufacturerRelationFilter
   Distributor: DistributorRelationFilter
   Retailer: RetailerRelationFilter
   uid: StringFilter

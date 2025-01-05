@@ -21,8 +21,9 @@ import {
 } from '@nestjs/swagger'
 import { RetailerEntity } from './entity/retailer.entity'
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { checkRowLevelPermission } from 'src/common/auth/util'
+
 import { GetUserType } from '@foundation/util/types'
+import { checkRowLevelPermission } from 'src/common/auth/util'
 
 @ApiTags('retailers')
 @Controller('retailers')
@@ -38,6 +39,7 @@ export class RetailersController {
     @GetUser() user: GetUserType,
   ) {
     checkRowLevelPermission(user, createRetailerDto.uid)
+
     return this.prisma.retailer.create({ data: createRetailerDto })
   }
 
@@ -61,13 +63,13 @@ export class RetailersController {
   @ApiBearerAuth()
   @AllowAuthenticated()
   @Patch(':uid')
-  async update(
+  update(
     @Param('uid') uid: string,
     @Body() updateRetailerDto: UpdateRetailer,
     @GetUser() user: GetUserType,
   ) {
-    const retailer = await this.prisma.retailer.findUnique({ where: { uid } })
-    checkRowLevelPermission(user, retailer.uid)
+    checkRowLevelPermission(user, uid)
+
     return this.prisma.retailer.update({
       where: { uid },
       data: updateRetailerDto,
@@ -77,9 +79,8 @@ export class RetailersController {
   @ApiBearerAuth()
   @AllowAuthenticated()
   @Delete(':uid')
-  async remove(@Param('uid') uid: string, @GetUser() user: GetUserType) {
-    const retailer = await this.prisma.retailer.findUnique({ where: { uid } })
-    checkRowLevelPermission(user, retailer.uid)
+  remove(@Param('uid') uid: string, @GetUser() user: GetUserType) {
+    checkRowLevelPermission(user, uid)
     return this.prisma.retailer.delete({ where: { uid } })
   }
 }

@@ -12,9 +12,11 @@ async function bootstrap() {
   console.log('add ', add(3, 4))
 
   const config = new DocumentBuilder()
-    .setTitle('FoundationX | Karthick Ragavendran')
+    .setTitle('LogiChain')
     .setDescription(
-      `Looking for the graphql api?
+      `LogiChain REST API
+      <br/>
+      Looking for the graphql api?
       <br/>
 Go to <a href="/graphql" target="_blank">/graphql</a>.
 Or,

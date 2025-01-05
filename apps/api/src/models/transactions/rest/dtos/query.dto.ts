@@ -6,8 +6,4 @@ export class TransactionQueryDto extends BaseQueryDto {
   @IsOptional()
   @IsIn(Object.values(Prisma.TransactionScalarFieldEnum))
   sortBy?: string
-
-  @IsOptional()
-  @IsIn(Object.values(Prisma.TransactionScalarFieldEnum))
-  searchBy?: string
 }

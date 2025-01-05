@@ -2,7 +2,7 @@ import { Field, InputType, PartialType } from '@nestjs/graphql'
 import { Prisma } from '@prisma/client'
 import { RestrictProperties } from 'src/common/dtos/common.input'
 import { InventoryOrderByRelationAggregateInput } from 'src/models/inventories/graphql/dtos/order-by.args'
-import { ManufacturersOrderByWithRelationInput } from 'src/models/manufacturers/graphql/dtos/order-by.args'
+import { ManufacturerOrderByWithRelationInput } from 'src/models/manufacturers/graphql/dtos/order-by.args'
 import { TransactionOrderByRelationAggregateInput } from 'src/models/transactions/graphql/dtos/order-by.args'
 
 @InputType()
@@ -27,8 +27,7 @@ export class ProductOrderByWithRelationInputStrict
   image: Prisma.SortOrder
   @Field(() => Prisma.SortOrder)
   manufacturerId: Prisma.SortOrder
-
-  Manufacturer: ManufacturersOrderByWithRelationInput
+  Manufacturer: ManufacturerOrderByWithRelationInput
   Inventory: InventoryOrderByRelationAggregateInput
   Transaction: TransactionOrderByRelationAggregateInput
 }
