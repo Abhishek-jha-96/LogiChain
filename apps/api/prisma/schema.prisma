@@ -19,18 +19,15 @@ model User {
     image String?
 
     Credentials  Credentials?
-    AuthProvider AuthProvider?
+    AuthProvider  AuthProvider?
+    Manufacturer  Manufacturer?
+    Distributor  Distributor?
+    Retailer  Retailer?
     Admin        Admin?
-    Manager      Manager?
-    Item         Item[]
+
 }
 
 model Admin {
-    uid  String @id
-    user User   @relation(fields: [uid], references: [uid])
-}
-
-model Manager {
     uid  String @id
     user User   @relation(fields: [uid], references: [uid])
 }
@@ -58,14 +55,119 @@ enum AuthProviderType {
     CREDENTIALS
 }
 
-model Item {
-    id        Int      @id @default(autoincrement())
+model Manufacturer {
+    uid  String @id
+    user User   @relation(fields: [uid], references: [uid])
+
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    name  String
-    image String?
 
-    uid  String
+    Product Product[]
+
+    Warehouse Warehouse[]
+}
+
+model Distributor {
+    uid  String @id
     user User   @relation(fields: [uid], references: [uid])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    Warehouse Warehouse[]
+}
+
+model Retailer {
+    uid  String @id
+    user User   @relation(fields: [uid], references: [uid])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    Warehouse Warehouse[]
+}
+
+model Product {
+    id  Int @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    name    String
+    description     String?
+    image       String? 
+
+    Manufacturer    Manufacturer    @relation(fields: [manufacturerId], references: [uid])
+    manufacturerId String
+
+    Inventory Inventory[]
+
+    Transaction Transaction[]
+}
+
+model Warehouse {
+    id  Int @id @default(autoincrement())
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    name    String
+    description     String?
+    location       Location? 
+
+    manufacturerId String?
+    Manufacturer    Manufacturer?    @relation(fields: [manufacturerId], references: [uid])
+
+    distributorId String?
+    Distributor     Distributor?    @relation(fields: [distributorId], references: [uid])
+
+    retailerId String?
+    Retailer    Retailer?   @relation(fields: [retailerId], references: [uid])
+
+
+    Inventory Inventory[]
+
+    outs Transaction[] @relation("FromWarehouse")
+    ins  Transaction[] @relation("ToWarehouse")
+}
+
+model Location {
+    id        Int    @id @default(autoincrement())
+    latitude  Float
+    longitude Float
+    address   String
+
+    Warehouse   Warehouse @relation(fields: [warehouseId], references: [id])
+    warehouseId Int       @unique
+}
+
+model Inventory {
+    id        Int    @id @default(autoincrement())
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    productId   Int
+    product     Product     @relation(fields: [productId], references: [id])
+
+    warehouseId     Int
+    warehouse   Warehouse   @relation(fields: [warehouseId], references: [id])
+
+    quantity    Int
+}
+
+model Transaction {
+    id        Int    @id @default(autoincrement())
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    productId   Int
+    product     Product     @relation(fields: [productId], references: [id])
+
+    fromWarehouseId    Int?
+    fromWarehouse   Warehouse?  @relation("FromWarehouse", fields: [fromWarehouseId], references: [id])
+
+    toWarehouseId   Int?
+    toWarehouse     Warehouse?  @relation("ToWarehouse", fields: [toWarehouseId], references: [id])
 }
