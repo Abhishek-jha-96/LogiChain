@@ -39,6 +39,7 @@ import { TransactionsModule } from './models/transactions/transactions.module'
     PrismaModule,
 
     UsersModule,
+
     ManufacturersModule,
     DistributorsModule,
     RetailersModule,
