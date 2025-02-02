@@ -22,7 +22,7 @@ import {
 import { RetailerEntity } from './entity/retailer.entity'
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
 
-import { GetUserType } from '@foundation/util/types'
+import { GetUserType } from '@logichain/util/types'
 import { checkRowLevelPermission } from 'src/common/auth/util'
 
 @ApiTags('retailers')

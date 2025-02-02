@@ -1,4 +1,4 @@
-import { authOptions } from '@foundation/network/src/auth/authOptions'
+import { authOptions } from '@logichain/network/src/auth/authOptions'
 import NextAuth from 'next-auth'
 
 const handler = NextAuth(authOptions)

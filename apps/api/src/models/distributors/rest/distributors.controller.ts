@@ -21,7 +21,7 @@ import {
 } from '@nestjs/swagger'
 import { DistributorEntity } from './entity/distributor.entity'
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { GetUserType } from '@foundation/util/types'
+import { GetUserType } from '@logichain/util/types'
 
 @ApiTags('distributors')
 @Controller('distributors')

@@ -1,1 +1,1 @@
-import '@foundation/network/next-auth'
+import '@logichain/network/next-auth'

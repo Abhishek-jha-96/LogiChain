@@ -21,7 +21,7 @@ import {
 } from '@nestjs/swagger'
 import { WarehouseEntity } from './entity/warehouse.entity'
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { GetUserType } from '@foundation/util/types'
+import { GetUserType } from '@logichain/util/types'
 
 @ApiTags('warehouses')
 @Controller('warehouses')

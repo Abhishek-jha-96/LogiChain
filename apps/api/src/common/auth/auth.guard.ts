@@ -8,7 +8,7 @@ import {
 import { GqlExecutionContext } from '@nestjs/graphql'
 import { JwtService } from '@nestjs/jwt'
 import { Reflector } from '@nestjs/core'
-import { Role } from '@foundation/util/types'
+import { Role } from '@logichain/util/types'
 import { PrismaService } from 'src/common/prisma/prisma.service'
 
 @Injectable()

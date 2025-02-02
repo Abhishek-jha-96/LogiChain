@@ -16,7 +16,7 @@ import { Manufacturer } from 'src/models/manufacturers/graphql/entity/manufactur
 import { Inventory } from 'src/models/inventories/graphql/entity/inventory.entity'
 import { Transaction } from 'src/models/transactions/graphql/entity/transaction.entity'
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { GetUserType } from '@foundation/util/types'
+import { GetUserType } from '@logichain/util/types'
 
 @Resolver(() => Product)
 export class ProductsResolver {

@@ -21,7 +21,7 @@ import {
 } from '@nestjs/swagger'
 import { LocationEntity } from './entity/location.entity'
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { GetUserType } from '@foundation/util/types'
+import { GetUserType } from '@logichain/util/types'
 
 @ApiTags('locations')
 @Controller('locations')

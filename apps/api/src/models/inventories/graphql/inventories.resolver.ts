@@ -19,7 +19,7 @@ import { Warehouse } from 'src/models/warehouses/graphql/entity/warehouse.entity
 import { Product } from 'src/models/products/graphql/entity/product.entity'
 import { BadRequestException } from '@nestjs/common'
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { GetUserType } from '@foundation/util/types'
+import { GetUserType } from '@logichain/util/types'
 
 @Resolver(() => Inventory)
 export class InventoriesResolver {

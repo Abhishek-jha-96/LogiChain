@@ -15,7 +15,7 @@ import { PrismaService } from 'src/common/prisma/prisma.service'
 
 import { Warehouse } from 'src/models/warehouses/graphql/entity/warehouse.entity'
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { GetUserType } from '@foundation/util/types'
+import { GetUserType } from '@logichain/util/types'
 import { User } from 'src/models/users/graphql/entity/user.entity'
 
 @Resolver(() => Retailer)

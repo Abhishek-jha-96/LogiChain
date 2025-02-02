@@ -21,7 +21,7 @@ import {
 } from '@nestjs/swagger'
 import { ManufacturerEntity } from './entity/manufacturer.entity'
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { GetUserType } from '@foundation/util/types'
+import { GetUserType } from '@logichain/util/types'
 
 @ApiTags('manufacturers')
 @Controller('manufacturers')

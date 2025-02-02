@@ -16,7 +16,7 @@ import { CreateTransactionInput } from './dtos/create-transaction.input'
 import { UpdateTransactionInput } from './dtos/update-transaction.input'
 import { PrismaService } from 'src/common/prisma/prisma.service'
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { GetUserType } from '@foundation/util/types'
+import { GetUserType } from '@logichain/util/types'
 import { Product } from 'src/models/products/graphql/entity/product.entity'
 import { Warehouse } from 'src/models/warehouses/graphql/entity/warehouse.entity'
 

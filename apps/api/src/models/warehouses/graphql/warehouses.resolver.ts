@@ -22,7 +22,7 @@ import { Inventory } from 'src/models/inventories/graphql/entity/inventory.entit
 import { Transaction } from 'src/models/transactions/graphql/entity/transaction.entity'
 import { Location } from 'src/models/locations/graphql/entity/location.entity'
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { GetUserType } from '@foundation/util/types'
+import { GetUserType } from '@logichain/util/types'
 
 @Resolver(() => Warehouse)
 export class WarehousesResolver {

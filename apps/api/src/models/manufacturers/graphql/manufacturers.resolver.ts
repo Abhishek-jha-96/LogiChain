@@ -19,7 +19,7 @@ import { PrismaService } from 'src/common/prisma/prisma.service'
 import { Warehouse } from 'src/models/warehouses/graphql/entity/warehouse.entity'
 import { User } from 'src/models/users/graphql/entity/user.entity'
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { GetUserType } from '@foundation/util/types'
+import { GetUserType } from '@logichain/util/types'
 import { checkRowLevelPermission } from 'src/common/auth/util'
 
 @Resolver(() => Manufacturer)

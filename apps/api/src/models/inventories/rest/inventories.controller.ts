@@ -21,7 +21,7 @@ import {
 } from '@nestjs/swagger'
 import { InventoryEntity } from './entity/inventory.entity'
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { GetUserType } from '@foundation/util/types'
+import { GetUserType } from '@logichain/util/types'
 
 @ApiTags('inventories')
 @Controller('inventories')
