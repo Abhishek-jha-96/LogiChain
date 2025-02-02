@@ -1,5 +1,5 @@
 'use client'
-import { useFormSignIn } from '@foundation/forms/src/signin'
+import { useFormSignIn } from '@logichain/forms/src/signin'
 import { signIn } from 'next-auth/react'
 import { Label } from '../atoms/label'
 import { Input } from '../atoms/input'

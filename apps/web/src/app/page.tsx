@@ -1,6 +1,6 @@
-import { getAuth } from '@foundation/network/src/auth/authOptions'
-import { add } from '@foundation/sample-lib'
-import { HomePage } from '@foundation/ui/src/components/templates/HomePage'
+import { getAuth } from '@logichain/network/src/auth/authOptions'
+import { add } from '@logichain/sample-lib'
+import { HomePage } from '@logichain/ui/src/components/templates/HomePage'
 
 export default async function Home() {
   const user = await getAuth()

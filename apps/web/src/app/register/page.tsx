@@ -1,4 +1,4 @@
-import { Register } from '@foundation/ui/src/components/templates/Register'
+import { Register } from '@logichain/ui/src/components/templates/Register'
 
 export default function RegisterPage() {
   return (

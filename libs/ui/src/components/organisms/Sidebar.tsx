@@ -4,9 +4,9 @@ import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { Sheet, SheetContent, SheetTrigger } from '../atoms/sheet'
 import { Menu } from 'lucide-react'
-import { BaseComponent } from '@foundation/util/types'
+import { BaseComponent } from '@logichain/util/types'
 
-import { useDialogState } from '@foundation/util/hooks'
+import { useDialogState } from '@logichain/util/hooks'
 export const Sidebar = ({ children }: BaseComponent) => {
   const session = useSession()
 

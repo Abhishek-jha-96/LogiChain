@@ -8,8 +8,11 @@ registerEnumType($Enums.AuthProviderType, {
 
 @ObjectType()
 export class User implements RestrictProperties<User, UserType> {
+  @Field(() => String)
   uid: string
+  @Field(() => Date)
   createdAt: Date
+  @Field(() => Date)
   updatedAt: Date
   @Field({ nullable: true })
   name: string
@@ -19,6 +22,7 @@ export class User implements RestrictProperties<User, UserType> {
 
 @InputType()
 export class LoginInput {
+  @Field(() => String)
   email: string
   password: string
 }
@@ -26,5 +30,6 @@ export class LoginInput {
 @ObjectType()
 export class AuthOutput {
   user: User
+  @Field(() => String)
   token: string
 }

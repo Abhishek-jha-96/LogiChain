@@ -1,4 +1,4 @@
-import { GetUserType, Role } from '@foundation/util/types'
+import { GetUserType, Role } from '@logichain/util/types'
 import { ForbiddenException } from '@nestjs/common'
 
 export const checkRowLevelPermission = (

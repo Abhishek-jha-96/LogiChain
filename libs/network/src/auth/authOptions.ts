@@ -1,7 +1,7 @@
 import { NextAuthOptions, getServerSession } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { MAX_AGE } from '@foundation/util'
+import { MAX_AGE } from '@logichain/util'
 import { fetchGraphqlStatic } from '../fetch'
 import {
   AuthProviderType,
