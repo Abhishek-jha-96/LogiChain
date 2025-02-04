@@ -52,3 +52,29 @@ mutation registerWithCredentials(
     token
   }
 }
+
+query manufacturer($where: ManufacturerWhereUniqueInput!) {
+  manufacturer(where: $where) {
+    uid
+    user {
+      name
+      image
+    }
+    products {
+      id
+      name
+    }
+    warehouses {
+      id
+      name
+    }
+  }
+}
+
+mutation createManufacturer(
+  $createManufacturerInput: CreateManufacturerInput!
+) {
+  createManufacturer(createManufacturerInput: $createManufacturerInput) {
+    uid
+  }
+}

@@ -5,10 +5,11 @@ import { HeroLink } from '../molecules/HeroLink'
 
 export const HeroBanner = () => {
   return (
-    <div className="flex h-[calc(100vh-3rem)] ">
-      <div className="mt-32 ">
-        <h1 className="max-w-xl mb-4 text-5xl">
-          Empowering Your <span className="">Supply Chain</span> Journey
+    <div className="flex h-[calc(100vh-3rem)] justify-center">
+      <div className="mt-32 text-center flex flex-col items-center">
+        <h1 className="max-w-xl mb-4 text-5xl font-semibold">
+          Empowering Your{' '}
+          <span className="hover:text-blue-600">Supply Chain</span> Journey
         </h1>
         <p className="max-w-md mb-8 text-xl">
           Connect, collaborate, and optimize your supply chain with LogiChain.
