@@ -25,5 +25,5 @@ export default async function ManufacturerPage() {
   if (!data?.manufacturer) {
     return <div>Manufacturer not found.</div>
   }
-  return <div>Manufature Page</div>
+  return <div>Manufaturer Page</div>
 }
